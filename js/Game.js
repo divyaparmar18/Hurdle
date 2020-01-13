@@ -1,7 +1,5 @@
 class Game {
-    constructor() {
-
-    }
+    constructor() {}
 
     getState() {
         var gameStateRef = database.ref('gameState');
@@ -16,6 +14,7 @@ class Game {
         });
     }
 
+
     async start() {
         if (gameState === 0) {
             player = new Player();
@@ -24,6 +23,7 @@ class Game {
                 playerCount = playerCountRef.val();
                 player.getCount();
             }
+
             form = new Form()
             form.display();
         }
@@ -45,7 +45,6 @@ class Game {
         Player.getPlayerInfo();
         spawnObstacles();
         spawnObstacles1();
-        // runner1Jump(runner1);
 
 
 
@@ -63,28 +62,32 @@ class Game {
 
             for (var plr in allPlayers) {
                 index = index + 1;
-                plr.velocityX = 5;
+
 
                 y = y + 260;
                 //use data form the database to display the cars in x direction
                 x = 360 - allPlayers[plr].distance;
+
                 runners[index - 1].x = x;
-                console.log(runners[index - 1].velocityX)
                 runners[index - 1].y = y;
+
+                // console.log(index, player.index)
+
+
+                console.log(player.index, index)
+
+                if (index === player.index) {
+                    // console.log("yes")
+                    stroke(10);
+                    fill("red");
+                    ellipse(x, y, 60, 60);
+                    runners[index - 1].shapeColor = "red";
+                    camera.position.x = runners[index - 1].x;
+                    camera.position.y = runners[index - 1].y;
+                }
+
+
             }
-
-
-
-
-            if (index === player.index) {
-                stroke(10);
-                fill("red");
-                ellipse(x, y, 60, 60);
-                runners[index - 1].shapeColor = "red";
-                camera.position.x = runners[index - 1].x;
-            }
-
-
         }
 
 
@@ -92,6 +95,14 @@ class Game {
         if (keyIsDown(RIGHT_ARROW) && player.index !== null) {
             player.distance -= 10
             player.update();
+        }
+
+        if (keyIsDown(UP_ARROW) && player.index !== null) {
+            player.velocityY = -10
+            player.update();
+        }
+        if (keyCode === 38) {
+            player.velocity.y = player.velocity.y - 5;
         }
 
 
@@ -115,7 +126,7 @@ function spawnObstacles() {
     var i = 0;
     if (frameCount % 360 === 0) {
         i = i + 1000
-        var obstacle = createSprite(i, 325);
+        var obstacle = createSprite(6000, 325);
 
         obstacle.velocityX = -2;
         obstacle.addImage(hurdle);
