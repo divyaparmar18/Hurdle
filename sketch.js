@@ -10,14 +10,13 @@ var form, player, game;
 
 var runners, runner1, runner2, runner3, runner4;
 
-var track, runner1_img, runner2_img, runner3_img, runner4_img, hurdle;
+var track, runner1_img, runner2_img, runner3_img, runner4_img, hurdle, invisibleGround1, invisibleGround2;
 
 function preload() {
     hurdle = loadImage("../images/hurdle.png");
     track = loadImage("../images/pla.jpg");
     runner1_img = loadImage("b.png", "p.png", "y.png");
     runner2_img = loadImage("b.png", "p.png", "y.png");
-    // ground = loadImage("../images/ground.png");
 }
 
 function setup() {

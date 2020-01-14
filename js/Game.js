@@ -27,18 +27,33 @@ class Game {
             form = new Form()
             form.display();
         }
-        runner1 = createSprite(10, 300);
+        runner1 = createSprite(10, 200);
         runner1.scale = 1;
         runner1.setCollider("rectangle", 0, 0)
         runner1.debug = true;
+        runner1.velocityY = 2;
         runner1.addImage("runner1", runner1_img);
-        runner2 = createSprite(10, 600);
+        runner2 = createSprite(10, 500);
         runner2.scale = 1;
+        runner2.velocityY = 2;
+
         runner2.setCollider("rectangle", 0, 0);
         runner2.debug = true;
 
         runner2.addImage("runner2", runner2_img);
         runners = [runner1, runner2];
+        invisibleGround1 = createSprite(100, 480, displayWidth * 5, 20);
+        invisibleGround1.setCollider("rectangle", 0, 0);
+        invisibleGround1.debug = true;
+        // invisibleGround1.visible = false;
+        invisibleGround2 = createSprite(100, 750, displayWidth * 5, 20);
+        invisibleGround2.setCollider("rectangle", 0, 0);
+        invisibleGround2.debug = true;
+
+
+        // invisibleGround2.visible = false;
+
+
     }
     play() {
         form.hide();
@@ -48,7 +63,7 @@ class Game {
 
 
 
-        // Player.getCarsAtEnd();
+        // Player.getPlayersAtEnd();
 
         if (allPlayers !== undefined) {
             image(track, 0, -20, displayWidth * 5, displayHeight);
@@ -58,6 +73,10 @@ class Game {
             //x and y position of the cars
             var y = 140;
             var x = 50;
+
+
+            runner1.collide(invisibleGround1);
+            runner2.collide(invisibleGround2);
 
 
             for (var plr in allPlayers) {
@@ -70,11 +89,8 @@ class Game {
 
                 runners[index - 1].x = x;
                 runners[index - 1].y = y;
-
-                // console.log(index, player.index)
-
-
-                console.log(player.index, index)
+                runners[index - 1].velocityY = 2;
+                runners[index - 1].velocityY = 2;
 
                 if (index === player.index) {
                     // console.log("yes")
@@ -84,26 +100,36 @@ class Game {
                     runners[index - 1].shapeColor = "red";
                     camera.position.x = runners[index - 1].x;
                     camera.position.y = runners[index - 1].y;
+                    player.x = x;
+                    player.y = y;
+
+
+                    if (keyDown("space")) {
+                        // console.log(player.x)
+                        runners[index - 1].velocityY = -4;
+
+                    }
+                    // player.velocityY = player.velocityY + 0.8
+
+
+
                 }
 
 
+
+
+
+                if (keyIsDown(RIGHT_ARROW) && player.index !== null) {
+                    player.distance -= 10
+                    player.update();
+                }
             }
+
         }
 
 
 
-        if (keyIsDown(RIGHT_ARROW) && player.index !== null) {
-            player.distance -= 10
-            player.update();
-        }
 
-        if (keyIsDown(UP_ARROW) && player.index !== null) {
-            player.velocityY = -10
-            player.update();
-        }
-        if (keyCode === 38) {
-            player.velocity.y = player.velocity.y - 5;
-        }
 
 
 
